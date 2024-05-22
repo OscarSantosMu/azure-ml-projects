@@ -28,7 +28,7 @@ El proyecto final consistirá en el diseño, desarrollo e implementación de una
 ### Instrucciones para los Participantes
 
 1. **Fork del Repositorio**:
-   - Cada equipo deberá hacer un fork del repositorio principal `azure-ml-projects` en GitHub.
+   - Cada equipo deberá hacer un fork del repositorio principal [azure-ml-projects](https://github.com/OscarSantosMu/azure-ml-projects) en GitHub.
 
 2. **Crear Carpeta del Equipo**:
    - Dentro del directorio `projects/`, crear una carpeta con el nombre de su equipo (por ejemplo, `team1_project`).
@@ -83,10 +83,7 @@ El proyecto final consistirá en el diseño, desarrollo e implementación de una
 - Video de una demostración práctica de la solución implementada con duración máxima de 1 minuto.
 
 #### Recursos:
-- Acceso a Azure Machine Learning y MLflow.
-- Materiales y notas del bootcamp.
-- Bibliografía recomendada sobre ciencia de datos y aprendizaje automático.
-- Ejemplos y casos de estudio proporcionados durante el bootcamp.
+El repo cuenta con una carpeta de resources que es para ustedes. Pueden añadir recursos que les hayan servido, notas, materiales, bibliografías, etc.
 
 #### ¿Y si tengo una pregunta?
 Si tienes alguna pregunta, por favor abre un nuevo [issue](https://github.com/OscarSantosMu/azure-ml-projects/issues/new?assignees=OscarSantosMu&labels=&projects=&template=q-a.md&title=%5BQ%5D%3A+) en el repositorio con los detalles de tu consulta.
