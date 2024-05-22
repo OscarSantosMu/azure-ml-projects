@@ -1,6 +1,6 @@
 # azure-ml-projects
 
-> Este repositorio contiene proyectos desarrollados por estudiantes del Bootcamp Azure Data Science.
+> Este repositorio contiene proyectos desarrollados por estudiantes del Bootcamp Azure Data Science. Sin embargo, aún sin haber cursado en el bootcamp, este repositorio servirá como guía y base para la comunidad.
 
 ### Lineamientos del Proyecto Final
 
