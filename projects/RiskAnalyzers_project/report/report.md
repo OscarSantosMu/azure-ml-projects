@@ -9,7 +9,7 @@
 1. Go to portal.azure.com
 2. Login with your Azure account
 3. In the search bar type "azure machine learning" and select the first one
-   ![azure-machine-learning](image.png)
+   ![azure-machine-learning](./assets/image.png)
 
 That will create:
 
@@ -19,11 +19,11 @@ That will create:
 
 4. Create a compute instance in _Azure Machine Learning Studio_
 5. Download the configuration file in this tab
-   ![config-file-path](image-1.png)
+   ![config-file-path](./assets/image-1.png)
    So you will see the download link in the bottom
-   ![config-file](image-2.png)
+   ![config-file](./assets/image-2.png)
 6. Upload the data for training and test to _Azure Machine Learning Studio_ in `MLTable` format. You need to go to the `Data` tab in the left bar and clic on create. After that, you select the type (`MLTable`) and upload the file
-   ![alt text](image-3.png)
+   ![alt text](./assets/image-3.png)
 
 ## Create the pipeline
 
@@ -136,25 +136,25 @@ except Exception as e:
 
 You could find the pipeline execution in the `Job tab` and selecting the name of the experiment created `project-codigo-facilito`
 
-![azure-ui-pipeline](image-4.png)
+![azure-ui-pipeline](./assets/image-4.png)
 
 The interface give you notification's messages if an step have an error or not. And the boxes of the steps turn to red if it had an error and green if it works well.
 
 ## Results
 
 - Select the pipeline that has the name that you define in the definition:
-  ![pipeline-box](image-5.png)
+  ![pipeline-box](./assets/image-5.png)
 - Expand the tab and you could see the main results:
-  ![main-results](image-6.png)
+  ![main-results](./assets/image-6.png)
   We see that the best model is `Light GBM` and had an 81% of accuracy, but if you select `show all metrics`, you will see the rest of the metrics:
-  ![alt metrics](image-7.png)
+  ![alt metrics](./assets/image-7.png)
 - Select the output
-  ![output-box](image-8.png)
+  ![output-box](./assets/image-8.png)
 - Select the resource URI to review the output data
-  ![output-uri-path](image-9.png)
+  ![output-uri-path](./assets/image-9.png)
   > It opens a new tab in your browser
 - In the second tab you will see the outputs created by the pipeline
-  ![outputs-created](image-10.png)
+  ![outputs-created](./assets/image-10.png)
   We see the configuration file, ml flow model, compress model, python environment and requirements file
 
 > Note: you could see the pipeline in the `pipeline tab` too.
