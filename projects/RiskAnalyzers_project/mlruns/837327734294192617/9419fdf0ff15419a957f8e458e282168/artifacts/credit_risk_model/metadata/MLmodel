@@ -1,0 +1,38 @@
+artifact_path: credit_risk_model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.11
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.5.0
+mlflow_version: 2.13.1
+model_size_bytes: 1244
+model_uuid: 53cdf78740d44c23aa951055136190ea
+run_id: 9419fdf0ff15419a957f8e458e282168
+signature:
+  inputs: '[{"type": "double", "name": "sex_woe", "required": true}, {"type": "double",
+    "name": "bill_amt3_woe", "required": true}, {"type": "double", "name": "limit_bal_woe",
+    "required": true}, {"type": "double", "name": "age_woe", "required": true}, {"type":
+    "double", "name": "pay_3_woe", "required": true}, {"type": "double", "name": "pay_amt4_woe",
+    "required": true}, {"type": "double", "name": "bill_amt6_woe", "required": true},
+    {"type": "double", "name": "pay_amt2_woe", "required": true}, {"type": "double",
+    "name": "pay_amt5_woe", "required": true}, {"type": "double", "name": "pay_5_woe",
+    "required": true}, {"type": "double", "name": "pay_2_woe", "required": true},
+    {"type": "double", "name": "pay_6_woe", "required": true}, {"type": "double",
+    "name": "pay_amt3_woe", "required": true}, {"type": "double", "name": "bill_amt2_woe",
+    "required": true}, {"type": "double", "name": "pay_amt1_woe", "required": true},
+    {"type": "double", "name": "pay_4_woe", "required": true}, {"type": "double",
+    "name": "bill_amt5_woe", "required": true}, {"type": "double", "name": "pay_amt6_woe",
+    "required": true}, {"type": "double", "name": "bill_amt1_woe", "required": true},
+    {"type": "double", "name": "bill_amt4_woe", "required": true}]'
+  outputs: '[{"type": "integer", "required": true}]'
+  params: null
+utc_time_created: '2024-06-13 21:32:29.849024'

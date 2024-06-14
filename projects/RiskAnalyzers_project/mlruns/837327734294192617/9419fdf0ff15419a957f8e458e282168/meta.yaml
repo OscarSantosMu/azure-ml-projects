@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/project/python/risk/final/mlruns/837327734294192617/9419fdf0ff15419a957f8e458e282168/artifacts
+end_time: 1718314365021
+entry_point_name: ''
+experiment_id: '837327734294192617'
+lifecycle_stage: active
+run_id: 9419fdf0ff15419a957f8e458e282168
+run_name: delicate-horse-957
+run_uuid: 9419fdf0ff15419a957f8e458e282168
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1718314349754
+status: 3
+tags: []
+user_id: Jona

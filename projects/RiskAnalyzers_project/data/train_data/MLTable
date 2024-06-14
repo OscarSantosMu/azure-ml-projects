@@ -1,0 +1,5 @@
+type: mltable
+paths:
+  - file: ./train_data.parquet
+transformations:
+  - read_parquet

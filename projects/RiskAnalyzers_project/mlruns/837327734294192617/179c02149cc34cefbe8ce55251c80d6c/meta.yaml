@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/project/python/risk/final/mlruns/837327734294192617/179c02149cc34cefbe8ce55251c80d6c/artifacts
+end_time: 1718314262033
+entry_point_name: ''
+experiment_id: '837327734294192617'
+lifecycle_stage: active
+run_id: 179c02149cc34cefbe8ce55251c80d6c
+run_name: fearless-shad-674
+run_uuid: 179c02149cc34cefbe8ce55251c80d6c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1718314261828
+status: 4
+tags: []
+user_id: Jona
