@@ -1,25 +1,28 @@
 # Modelo de Riesgo Crediticio
 
 ## Autores
+
 - Miguel Joel Brito
 - Moises Miranda
 - Juan Sebastian Mora Tibamoso
 - Jonathan Narvaes Urresta
 - María Angélica Parra Mendoza
 
-
 ## Resumen
+
 En este reporte, describiremos el proceso de creación de un modelo de riesgo de crédito. Desde la descripción y exploración de los datos hasta la construcción y evaluación de un modelo utilizando Azure ML, proporcionamos una visión general detallada del enfoque utilizado y los resultados obtenidos..
 
 ## Introducción
+
 El riesgo crediticio es la posibilidad de que un prestatario no cumpla con sus obligaciones de pago. La creación de un modelo de riesgo crediticio puede ayudar a las instituciones financieras a evaluar la probabilidad de incumplimiento y tomar decisiones informadas.
 
 ## Descripción de los Datos
+
 Describimos los datos utilizados en este proyecto, incluyendo las fuentes, las características principales y las variables objetivo.
 
 - **Fuente de los Datos**: [https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset]
 - **Variables Principales**:
- 
+
 - **ID**: ID de cada cliente
 - **LIMIT_BAL**: Monto de crédito otorgado en dólares NT (incluye crédito individual y familiar/suplementario)
 - **SEX**: Género (1=masculino, 2=femenino)
@@ -46,6 +49,7 @@ Describimos los datos utilizados en este proyecto, incluyendo las fuentes, las c
 - **PAY_AMT6**: Monto del pago anterior en abril de 2005 (dólares NT)
 
 ## Exploración y Análisis de los Datos
+
 Realizamos una exploración inicial de los datos para entender mejor su estructura y contenido. Esto incluye análisis descriptivos y visualización de datos.
 
 ```python
@@ -63,6 +67,7 @@ url = '../data/UCI_Credit_Card.csv'
 df = pd.read_csv(url)
 df.head()
 ```
+
 ## Preprocesamiento de Datos
 
 ### Eliminación de la Columna de Identificación
@@ -72,11 +77,12 @@ En primer lugar, eliminamos la columna 'ID' del DataFrame, ya que esta columna c
 ```python
 df.drop(columns=['ID'], inplace=True)
 ```
+
 ### Conversión de Nombres de Columnas a Minúsculas
 
 Después, convertimos todos los nombres de las columnas a minúsculas para mantener la consistencia y facilitar el manejo de las mismas durante el análisis y modelado.
 
-``` python
+```python
 df.columns = df.columns.str.lower()
 ```
 
@@ -88,38 +94,37 @@ Usamos el método `isnull()` de pandas para identificar los valores faltantes en
 # Verificar si hay valores faltantes
 print(df.isnull().sum())
 ```
-# RiskAnalyzers report
 
-## Problem
+## MLflow Model
 
-## Set up the project workspace
+### Configurar el espacio de trabajo
 
-- In this example, we are going to use the azure interface to create the workspace. To create an azure machine learning you need to do the following steps:
+En este ejemplo, vamos a usar la interfaz de Azure para crear el workspace. Para crear un entorno de aprendizaje automático en Azure, necesitas seguir los siguientes pasos:
 
-1. Go to portal.azure.com
-2. Login with your Azure account
-3. In the search bar type "azure machine learning" and select the first one
+1. Ve a portal.azure.com
+2. Inicia sesión con tu cuenta de Azure
+3. En la barra de búsqueda, escribe "azure machine learning" y selecciona el primero
    ![azure-machine-learning](./assets/image.png)
 
-That will create:
+Esto creará:
 
-- Storage account
-- Azure machine learning workspace
-- Azure workspace
+- Cuenta de almacenamiento
+- Espacio de trabajo de aprendizaje automático de Azure
+- Espacio de trabajo de Azure
 
-4. Create a compute instance in _Azure Machine Learning Studio_
-5. Download the configuration file in this tab
+4. Crea una instancia de cómputo en _Azure Machine Learning Studio_
+5. Descarga el archivo de configuración en esta pestaña
    ![config-file-path](./assets/image-1.png)
-   So you will see the download link in the bottom
+   Así verás el enlace de descarga en la parte inferior
    ![config-file](./assets/image-2.png)
-6. Upload the data for training and test to _Azure Machine Learning Studio_ in `MLTable` format. You need to go to the `Data` tab in the left bar and clic on create. After that, you select the type (`MLTable`) and upload the file
+6. Sube los datos para entrenamiento y prueba a _Azure Machine Learning Studio_ en formato `MLTable`. Necesitas ir a la pestaña `Data` en la barra izquierda y hacer clic en crear. Después, selecciona el tipo (`MLTable`) y sube el archivo
    ![alt text](./assets/image-3.png)
 
-## Create the pipeline
+### Crear el pipeline
 
-We are going to create the code for the project locally, and with the azure machine learning library we are going to upload the pipeline to execute that with the cloud.
+Vamos a crear el código para el proyecto localmente, y con la biblioteca de aprendizaje automático de Azure vamos a subir el pipeline para ejecutarlo en la nube.
 
-### Import Libraries
+#### Importar bibliotecas
 
 ```Python
 import logging
@@ -130,9 +135,9 @@ from azure.ai.ml import Input,Output, automl, command
 from azure.ai.ml.constants import AssetTypes
 ```
 
-### Access to Azure Account
+#### Acceso a la cuenta de Azure
 
-Is necessary to have the configuration file in the same path of the code.
+Es necesario tener un archivo de configuración en la misma ruta, este debe contar con las credenciales de acceso a la cuenta.
 
 ```Python
 try:
@@ -147,11 +152,11 @@ except Exception as ex:
 ml_client = MLClient.from_config(credential=credential)
 ```
 
-The previous code return the configuration credentials to access your azure resources, in this case it is going to return `.\config.json` that is our configuration file.
+El código anterior devuelve las credenciales de configuración para acceder a tus recursos de Azure. En este caso, va a devolver `.\config.json`, que es nuestro archivo de configuración.
 
-### Create the pipeline
+#### Crear el pipeline
 
-We are going to create the pipeline without a configuration file `YAML` using the `@pipeline` decorator. We are going to test the following algorithms:
+Vamos a crear el pipeline sin un archivo de configuración `YAML` usando el decorador `@pipeline`. Vamos a probar los siguientes algoritmos:
 
 - Logistic Regression
 - Light GBM
@@ -193,7 +198,7 @@ def automl_classification(
     show_output = command_func(automl_output=classification_node.outputs.best_model)
 ```
 
-With that you create a definition for your pipeline. To execute the pipeline we need to pass the paths for the training and testing data and create the job to execute the pipeline.
+Con eso, creas una definición para tu pipeline. Para ejecutar el pipeline, necesitamos pasar las rutas para los datos de entrenamiento y prueba, y crear el trabajo para ejecutar el pipeline.
 
 ```Python
 URI_TRAIN_PATH = "YOUR_URI_PATH_TO_MLTABLE_IN_AZURE"
@@ -220,34 +225,34 @@ except Exception as e:
     raise
 ```
 
-> The instance selected in the previous code needs to be **ON** to execute the process
+> La instancia seleccionada en el código anterior necesita estar **ENCENDIDA** para ejecutar el proceso.
 
-## Uploading the pipeline
+### Subiendo el pipeline
 
-You could find the pipeline execution in the `Job tab` and selecting the name of the experiment created `project-codigo-facilito`
+Puedes encontrar la ejecución del pipeline en la `pestaña Job` y seleccionando el nombre del experimento creado `project-codigo-facilito`
 
 ![azure-ui-pipeline](./assets/image-4.png)
 
-The interface give you notification's messages if an step have an error or not. And the boxes of the steps turn to red if it had an error and green if it works well.
+La interfaz te da mensajes de notificación si un paso tiene un error o no. Y los cuadros de los pasos se vuelven rojos si hubo un error y verdes si funciona bien.
 
-## Results
+### Resultados
 
-- Select the pipeline that has the name that you define in the definition:
+- Selecciona el pipeline que tiene el nombre que definiste en la definición:
   ![pipeline-box](./assets/image-5.png)
-- Expand the tab and you could see the main results:
+- Expande la pestaña y podrás ver los resultados principales:
   ![main-results](./assets/image-6.png)
-  We see that the best model is `Light GBM` and had an 81% of accuracy, but if you select `show all metrics`, you will see the rest of the metrics:
+  Vemos que el mejor modelo es `Light GBM` y tuvo un 81% de precisión, pero si seleccionas `show all metrics`, verás el resto de las métricas:
   ![alt metrics](./assets/image-7.png)
-- Select the output
+- Selecciona el output
   ![output-box](./assets/image-8.png)
-- Select the resource URI to review the output data
+- Selecciona la URI del recurso para revisar los datos de salida
   ![output-uri-path](./assets/image-9.png)
-  > It opens a new tab in your browser
-- In the second tab you will see the outputs created by the pipeline
+  > Se abrirá una nueva pestaña en tu navegador
+- En la segunda pestaña verás las salidas creadas por el pipeline
   ![outputs-created](./assets/image-10.png)
-  We see the configuration file, ml flow model, compress model, python environment and requirements file
+  Vemos el archivo de configuración, el modelo ml flow, el modelo comprimido, el entorno de Python y el archivo de requisitos.
 
-> Note: you could see the pipeline in the `pipeline tab` too.
+> Nota: También puedes ver el pipeline en la `pestaña pipeline`.
 
 ## Cálculo del Information Value (IV)
 
@@ -264,43 +269,46 @@ iv_result = sc.iv(df, y="default")
 # Mostrar los resultados
 iv_result
 ```
-| Variable   | IV        |
-|------------|-----------|
-| pay_0      | 0.877161  |
-| pay_2      | 0.548882  |
-| pay_3      | 0.416046  |
-| pay_4      | 0.367266  |
-| pay_amt1   | 0.354998  |
-| pay_amt6   | 0.340639  |
-| pay_5      | 0.340341  |
-| pay_amt3   | 0.340153  |
-| pay_amt4   | 0.339778  |
-| pay_amt5   | 0.339478  |
-| pay_amt2   | 0.330309  |
-| pay_6      | 0.293846  |
-| bill_amt6  | 0.204642  |
-| bill_amt5  | 0.195339  |
-| limit_bal  | 0.192544  |
-| bill_amt4  | 0.184890  |
-| bill_amt3  | 0.172999  |
-| bill_amt2  | 0.164650  |
-| bill_amt1  | 0.151770  |
-| education  | 0.038362  |
-| age        | 0.029208  |
-| sex        | 0.009180  |
-| marriage   | 0.007235  |
+
+| Variable  | IV       |
+| --------- | -------- |
+| pay_0     | 0.877161 |
+| pay_2     | 0.548882 |
+| pay_3     | 0.416046 |
+| pay_4     | 0.367266 |
+| pay_amt1  | 0.354998 |
+| pay_amt6  | 0.340639 |
+| pay_5     | 0.340341 |
+| pay_amt3  | 0.340153 |
+| pay_amt4  | 0.339778 |
+| pay_amt5  | 0.339478 |
+| pay_amt2  | 0.330309 |
+| pay_6     | 0.293846 |
+| bill_amt6 | 0.204642 |
+| bill_amt5 | 0.195339 |
+| limit_bal | 0.192544 |
+| bill_amt4 | 0.184890 |
+| bill_amt3 | 0.172999 |
+| bill_amt2 | 0.164650 |
+| bill_amt1 | 0.151770 |
+| education | 0.038362 |
+| age       | 0.029208 |
+| sex       | 0.009180 |
+| marriage  | 0.007235 |
 
 ## Conclusión del Análisis del Information Value (IV)
 
 La tabla de Information Value (IV) proporciona una visión clara de la capacidad predictiva de cada variable en relación con la variable objetivo (`default`). A continuación se presentan las conclusiones clave:
 
 1. **Variables Altamente Predictivas**:
+
    - `pay_0` (IV = 0.877161)
    - `pay_2` (IV = 0.548882)
    - `pay_3` (IV = 0.416046)
-   Estas variables tienen valores de IV muy altos, indicando que son fuertemente predictivas y, por lo tanto, extremadamente útiles para el modelo de riesgo crediticio.
+     Estas variables tienen valores de IV muy altos, indicando que son fuertemente predictivas y, por lo tanto, extremadamente útiles para el modelo de riesgo crediticio.
 
 2. **Variables Moderadamente Predictivas**:
+
    - `pay_4` (IV = 0.367266)
    - `pay_amt1` (IV = 0.354998)
    - `pay_amt6` (IV = 0.340639)
@@ -310,9 +318,10 @@ La tabla de Information Value (IV) proporciona una visión clara de la capacidad
    - `pay_amt5` (IV = 0.339478)
    - `pay_amt2` (IV = 0.330309)
    - `pay_6` (IV = 0.293846)
-   Estas variables también son altamente informativas y contribuyen significativamente a la predicción del incumplimiento de pago.
+     Estas variables también son altamente informativas y contribuyen significativamente a la predicción del incumplimiento de pago.
 
 3. **Variables Débilmente Predictivas**:
+
    - `bill_amt6` (IV = 0.204642)
    - `bill_amt5` (IV = 0.195339)
    - `limit_bal` (IV = 0.192544)
@@ -320,14 +329,14 @@ La tabla de Information Value (IV) proporciona una visión clara de la capacidad
    - `bill_amt3` (IV = 0.172999)
    - `bill_amt2` (IV = 0.164650)
    - `bill_amt1` (IV = 0.151770)
-   Estas variables tienen valores de IV más bajos en comparación con las anteriores, pero aún son útiles para el modelo.
+     Estas variables tienen valores de IV más bajos en comparación con las anteriores, pero aún son útiles para el modelo.
 
 4. **Variables Poco Predictivas**:
    - `education` (IV = 0.038362)
    - `age` (IV = 0.029208)
    - `sex` (IV = 0.009180)
    - `marriage` (IV = 0.007235)
-   Estas variables tienen valores de IV bajos, lo que sugiere que tienen una capacidad predictiva limitada. Podrían considerarse para eliminación o un tratamiento especial en el modelo, ya que su contribución a la predicción del incumplimiento es mínima.
+     Estas variables tienen valores de IV bajos, lo que sugiere que tienen una capacidad predictiva limitada. Podrían considerarse para eliminación o un tratamiento especial en el modelo, ya que su contribución a la predicción del incumplimiento es mínima.
 
 ### Recomendaciones
 
@@ -340,14 +349,13 @@ En resumen, el análisis del IV nos ha permitido identificar las variables clave
 
 Para discretizar las variables continuas y calcular Weight of Evidence (WOE) e Information Value (IV), utilizamos la función `woebin` de la biblioteca `scorecardpy`. Este proceso nos ayudará a preparar las variables para el modelado de riesgo crediticio.
 
-
 ```python
 # Importar la función necesaria para discretización y cálculo de WOE e IV
 from scorecardpy import woebin
 
 # Definir las características (features) a discretizar
 features = [
-    'limit_bal', 'sex', 'education', 'marriage', 'age', 
+    'limit_bal', 'sex', 'education', 'marriage', 'age',
     'pay_0', 'pay_2', 'pay_3', 'pay_4', 'pay_5', 'pay_6',
     'bill_amt1', 'bill_amt2', 'bill_amt3', 'bill_amt4', 'bill_amt5', 'bill_amt6',
     'pay_amt1', 'pay_amt2', 'pay_amt3', 'pay_amt4', 'pay_amt5', 'pay_amt6'
@@ -356,11 +364,12 @@ features = [
 # Realizar la discretización y cálculo de WOE e IV
 bins = woebin(df, y='default', x=features)
 ```
+
 El objeto 'bins' contendrá los resultados de la discretización y los valores de WOE e IV
+
 ## Transformación de Variables utilizando WOE
 
 Para transformar las variables del DataFrame `df` utilizando el Weight of Evidence (WOE) previamente calculado, utilizamos la función `woebin_ply` de la biblioteca `scorecardpy`.
-
 
 ```python
 # Importar la función necesaria para aplicar WOE a las variables
@@ -369,12 +378,12 @@ from scorecardpy import woebin_ply
 # Aplicar WOE a las variables del DataFrame
 df_woe = woebin_ply(df, bins)
 ```
+
 'df_woe' ahora contiene las variables transformadas utilizando WOE
 
 ## División de los Datos en Entrenamiento y Prueba
 
 Después de transformar las variables utilizando Weight of Evidence (WOE), procedemos a dividir los datos en conjuntos de entrenamiento y prueba. Esto nos permitirá entrenar nuestro modelo en el conjunto de entrenamiento y evaluar su rendimiento en el conjunto de prueba.
-
 
 ```python
 # Importar la función necesaria para dividir los datos
@@ -387,11 +396,10 @@ y = df_woe['default']
 # Dividir los datos en entrenamiento y prueba
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 ```
+
 # Configuración y Uso de MLflow
 
 Para utilizar MLflow y configurar el experimento "mlflow-experiment-credit", sigue estos pasos:
-
-
 
 ```python
 import mlflow
@@ -408,7 +416,6 @@ Ahora MLflow está configurado para registrar todos los resultados dentro del ex
 ## Entrenamiento de un Modelo de Regresión Logística con MLflow
 
 A continuación se muestra cómo entrenar un modelo de Regresión Logística utilizando MLflow para el registro automático de métricas y parámetros.
-
 
 ```python
 import mlflow
@@ -438,8 +445,9 @@ with mlflow.start_run():
 
     # Guardar el modelo entrenado como un artefacto
     mlflow.sklearn.log_model(model, "logistic_regression_model")
- ```
- ## Creación de Scorecard con scorecardpy
+```
+
+## Creación de Scorecard con scorecardpy
 
 Para crear una scorecard utilizando `scorecardpy`, sigue estos pasos:
 
@@ -454,6 +462,7 @@ Suponiendo que 'bins' y 'model' ya están definidos y 'X_train' es tu conjunto d
 'model' es el modelo de Regresión Logística u otro modelo compatible
 
 Definir los parámetros para crear la scorecard
+
 ```python
 points0 = 600  # Puntos base (base points)
 odds0 = 1/19   # Ratio de odds base (base odds)
@@ -488,7 +497,6 @@ test_scores = sc.scorecard_ply(X_test, card, only_total_score=True)
 
 Para evaluar el modelo utilizando los puntajes calculados en los conjuntos de datos de entrenamiento y prueba, puedes utilizar la métrica de área bajo la curva ROC (ROC AUC).
 
-
 ```python
 from sklearn.metrics import roc_auc_score
 
@@ -505,7 +513,6 @@ print('Test ROC AUC Score:', test_roc_auc)
 
 Para guardar un objeto `Scorecard` en un archivo en Python, puedes seguir estos pasos utilizando la biblioteca `pickle`:
 
-
 ```python
 import pickle
 
@@ -517,6 +524,7 @@ with open('scorecard.pkl', 'wb') as file:
 
 print("Scorecard guardado exitosamente en 'scorecard.pkl'")
 ```
+
 # Creacion de aplicación scoreboard
 
 ![Scoreboard App](https://i.ibb.co/LtCJk2D/scoreboard-app.png)
@@ -541,24 +549,24 @@ with open('scorecard.pkl', 'rb') as file:
     scorecard = pickle.load(file)
 
 with st.sidebar:
-    
+
     limit_balance = st.number_input('Ingrese la cantidad de balance',min_value=0,step=1,key='limit_balance')
-    
+
     sex = st.selectbox(
     'Genero',
        options_sex
     )
-    
+
     education = st.selectbox(
     "Educación",
        options_education
     )
-    
+
     marriage =  st.selectbox(
     "Estado civil",
         options_marriage
     )
-    
+
     age = st.number_input('Ingrese la edad', min_value= 18, step=1, key='age')
 
     pay_0 = st.number_input('mes pagado Septiembre', min_value= -1, max_value=9, step=1, key='pay_0')
@@ -656,11 +664,11 @@ def render_ring_gauge(value):
                     'lineStyle': {
                         'width': 20,
                         'color':[
-                            [0.2, "#FF6666"],  
-                            [0.4, "#FFB266"],  
-                            [0.6, "#FFFF66"],  
-                            [0.8, "#B2FF66"], 
-                            [1, "#66FF66"],  
+                            [0.2, "#FF6666"],
+                            [0.4, "#FFB266"],
+                            [0.6, "#FFFF66"],
+                            [0.8, "#B2FF66"],
+                            [1, "#66FF66"],
                         ],
                     },
                 },
@@ -712,18 +720,22 @@ time.sleep(2)
 st.rerun()
 
 ```
+
 # Explicación de la Aplicación de Scorecard
 
 Este código crea una aplicación web Streamlit para un modelo de puntuación crediticia. Aquí se presenta un desglose de sus principales componentes y funcionalidades:
 
 ## Importaciones y Configuración
+
 - El código importa las bibliotecas necesarias: `time`, `pandas`, `streamlit`, `scorecardpy`, `pickle` y `streamlit_echarts`.
 - Configura el título de la página Streamlit como 'Scoreboard'.
 
 ## Carga del Modelo
+
 - Se carga un modelo de scorecard pre-entrenado desde un archivo pickle (`scorecard.pkl`).
 
 ## Recolección de Datos del Usuario
+
 - La aplicación utiliza la barra lateral de Streamlit para recopilar las entradas del usuario para varias características:
   - Balance del préstamo
   - Género
@@ -735,14 +747,17 @@ Este código crea una aplicación web Streamlit para un modelo de puntuación cr
   - Montos de pagos de los últimos 6 meses
 
 ## Preprocesamiento de Datos
+
 - Las entradas del usuario se procesan y convierten en un formato adecuado para el modelo:
   - Las variables categóricas (género, educación, estado civil) se codifican numéricamente.
   - Todas las entradas se compilan en un diccionario y luego se convierten en un DataFrame de pandas.
 
 ## Cálculo de la Puntuación
+
 - Se utiliza la función `scorecard_ply` de `scorecardpy` para calcular la puntuación crediticia basada en las entradas del usuario y el modelo pre-entrenado.
 
 ## Visualización de la Puntuación
+
 - Se define una función personalizada `render_ring_gauge` para crear un gráfico de medidor interactivo y colorido utilizando ECharts (a través de `streamlit_echarts`).
 - El medidor muestra la puntuación crediticia calculada, con colores que indican diferentes rangos de puntuación:
   - Rojo (0-200): Alto riesgo
@@ -752,4 +767,5 @@ Este código crea una aplicación web Streamlit para un modelo de puntuación cr
   - Verde (800-1000): Bajo riesgo
 
 ## Actualizaciones en Tiempo Real
+
 - La aplicación utiliza `time.sleep(2)` y `st.rerun()` para actualizar automáticamente la visualización cada 2 segundos, permitiendo cambios en tiempo real a medida que el usuario modifica las entradas.
