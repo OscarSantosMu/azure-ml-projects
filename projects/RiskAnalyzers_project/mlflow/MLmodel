@@ -1,0 +1,38 @@
+artifact_path: outputs/mlflow-model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.9.19
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: pickle
+    sklearn_version: 1.1.3
+metadata:
+  azureml.base_image: mcr.microsoft.com/azureml/curated/azureml-automl:172
+  azureml.engine: automl
+mlflow_version: 2.9.2
+model_size_bytes: 369253
+model_uuid: d2b1e638fc4d483bb38635b0c88ec0a4
+run_id: a33bebc7-89c1-4161-88cd-c0c133fa5b77_0
+signature:
+  inputs: '[{"type": "double", "name": "sex_woe"}, {"type": "double", "name": "bill_amt3_woe"},
+    {"type": "double", "name": "limit_bal_woe"}, {"type": "double", "name": "age_woe"},
+    {"type": "double", "name": "pay_3_woe"}, {"type": "double", "name": "pay_amt4_woe"},
+    {"type": "double", "name": "education_woe"}, {"type": "double", "name": "bill_amt6_woe"},
+    {"type": "double", "name": "pay_amt2_woe"}, {"type": "double", "name": "pay_amt5_woe"},
+    {"type": "double", "name": "pay_0_woe"}, {"type": "double", "name": "pay_5_woe"},
+    {"type": "double", "name": "pay_2_woe"}, {"type": "double", "name": "pay_6_woe"},
+    {"type": "double", "name": "pay_amt3_woe"}, {"type": "double", "name": "bill_amt2_woe"},
+    {"type": "double", "name": "pay_amt1_woe"}, {"type": "double", "name": "pay_4_woe"},
+    {"type": "double", "name": "bill_amt5_woe"}, {"type": "double", "name": "marriage_woe"},
+    {"type": "double", "name": "pay_amt6_woe"}, {"type": "double", "name": "bill_amt1_woe"},
+    {"type": "double", "name": "bill_amt4_woe"}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+utc_time_created: '2024-06-09 21:15:27.480388'

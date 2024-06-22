@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/project/python/risk/final/mlruns/837327734294192617/056cdbde69194d7c8f66a61c31ccc615/artifacts
+end_time: 1718314326091
+entry_point_name: ''
+experiment_id: '837327734294192617'
+lifecycle_stage: active
+run_id: 056cdbde69194d7c8f66a61c31ccc615
+run_name: spiffy-seal-114
+run_uuid: 056cdbde69194d7c8f66a61c31ccc615
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1718314307803
+status: 3
+tags: []
+user_id: Jona
