@@ -7,3 +7,7 @@
 - Juan Sebastian Mora Tibamoso
 - Jonathan Narvaes Urresta
 - María Angélica Parra Mendoza
+
+## Desarrollo
+
+- [Reporte del proyecto](./report/README.md)
